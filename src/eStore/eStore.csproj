@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>8ccd6607-8ebe-4360-8742-640484705f49</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\Orders\Orders.Application\Orders.Application.csproj" />
+    <ProjectReference Include="..\Modules\Orders\Orders.Infrastructure\Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Products\Products.Application\Products.Application.csproj" />
+    <ProjectReference Include="..\Modules\Products\Products.Infrastructure\Products.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Users\Users.Application\Users.Application.csproj" />
+    <ProjectReference Include="..\Modules\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+</Project>

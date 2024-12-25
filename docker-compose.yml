@@ -1,0 +1,54 @@
+services:
+  estore:
+    image: ${DOCKER_REGISTRY-}estore
+    container_name: eStore.Api
+    build:
+      context: .
+      dockerfile: src/eStore/Dockerfile
+    environment:
+        - RabbitMQ__Host=amqp://estore-queue:5672
+        - RabbitMQ__Username=guest
+        - RabbitMQ__Password=guest
+        - OTEL_EXPORTER_OTLP_ENDPOINT=http://estore.seq:5341/ingest/otlp/v1/traces
+        - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+    ports:
+       - "8080:8080"
+       - "8081:8081"
+
+  estore.queue:
+    image:  rabbitmq:management-alpine
+    container_name: eStore.Queue
+    hostname: estore-queue
+    volumes:
+        - "./.containers/queue/data/:/var/lib/rabbitmq"
+        - "./.containers/queue/log/:/var/log/rabbitmq"
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+    ports:
+        - "5675:5672"
+        - "15672:15672"
+
+  estore.database:
+    image:  postgres:latest
+    container_name: eStore.Database
+    volumes:
+        - "./.containers/database:/var/lib/postgresql/data"
+    environment:
+        - POSTGRES_DB=eStoreMM
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+    ports:
+        - "5432:5432"
+
+  estore.seq:
+    image:  datalust/seq:latest
+    container_name: eStore.Seq
+    volumes:
+        - "./.containers/seq:/data"
+    environment:
+        - ACCEPT_EULA=Y
+    ports:
+        - "5341:5341" 
+        - "5001:80" 
+
